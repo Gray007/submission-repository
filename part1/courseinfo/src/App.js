@@ -1,34 +1,24 @@
 import React from 'react'
 
-const Header = (props) => {
-  console.log(props.course.parts[0].name)
-  return (
-    <h1>{props.course.name}</h1>
-  )
-}
+const Header = ({ course }) => <h1>{course.name}</h1>
 
-const Content = (props) => {
-  return (
+const Content = ({ course }) => (
     <div>
-      <Part part={props.course.parts[0].name} exercises={props.course.parts[0].exercises}/>
-      <Part part={props.course.parts[1].name} exercises={props.course.parts[1].exercises}/>
-      <Part part={props.course.parts[2].name} exercises={props.course.parts[2].exercises}/>
+      <Part part={course.parts[0].name} exercises={course.parts[0].exercises}/>
+      <Part part={course.parts[1].name} exercises={course.parts[1].exercises}/>
+      <Part part={course.parts[2].name} exercises={course.parts[2].exercises}/>
     </div>
   )
-}
 
-// Part component
-const Part = (props) => {
-  return (
+const Part = ({ part, exercises }) => (
     <p>
-      {props.part} {props.exercises}
+      {part} {exercises}
     </p>
   )
-}
     
 
-const Total = (props) => {
-  const totalExercises =  props.course.parts[0].exercises + props.course.parts[1].exercises + props.course.parts[2].exercises
+const Total = ({ course }) => {
+  const totalExercises =  course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises
   return (
     <p>
       Number of exercises {totalExercises}
