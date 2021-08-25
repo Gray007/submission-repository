@@ -25,12 +25,12 @@ const ButtonGroup = ({totalClicks, good, neutral, bad, setTotal, setGood, setBad
   }
   
   return (
-    <div>
+    <>
       <Heading text='Give feedback' />
       <Button onClick={increaseGood} text='Good' />
       <Button onClick={increaseNeutral} text='Neutral' />
       <Button onClick={increaseBad} text='Bad' />
-    </div>
+    </>
   )
 }
 
@@ -46,26 +46,39 @@ const Statistics = ({totalClicks, good, neutral, bad}) => {
 
   if (totalClicks === 0) {
     return (
-      <div>
+      <>
         <Heading text='Statistics' />
         <p>No feedback given as of yet</p>
-      </div>
+      </>
     )
   }
   return (
-    <div>
-      <Heading text='Statistics' />
+    <table>
+      <thead>
+        <tr>
+          <th>
+          <Heading text='Statistics' />
+          </th>
+        </tr>
+      </thead>
+      <tbody>
       <StatisticLine counter={good} text='Good' />
       <StatisticLine counter={neutral} text='Neutral' />
       <StatisticLine counter={bad} text='Bad' />
       <StatisticLine counter={totalClicks} text='All' />
       <StatisticLine counter={average || totalClicks} text='Average' />
       <StatisticLine counter={`${positive}%`} text='Positive' />
-    </div>
+      </tbody>
+    </table>
   )
 }
 
-const StatisticLine = ({ counter, text }) => <p>{text} {counter}</p>
+const StatisticLine = ({ counter, text }) => (
+  <tr>
+    <td>{text}</td>
+    <td>{counter}</td>
+  </tr>
+)
 
 const App = () => {
   //Might have been better to go with an object to handle state
@@ -75,7 +88,7 @@ const App = () => {
   const [totalClicks, setTotal] = useState(0)
 
   return (
-    <div>
+    <>
       <ButtonGroup 
         totalClicks={totalClicks}
         setTotal ={setTotal} 
@@ -92,7 +105,7 @@ const App = () => {
         neutral={neutral} 
         bad={bad} 
       />
-    </div>
+    </>
   )
 }
 
