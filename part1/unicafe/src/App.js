@@ -17,7 +17,15 @@ const Statistics = ({totalClicks, good, neutral, bad}) => {
     positive = positive.toFixed(2)
     average = average.toFixed(2)
   }
-  
+
+  if (totalClicks === 0) {
+    return (
+      <div>
+        <Heading text='Statistics' />
+        <p>No feedback given as of yet</p>
+      </div>
+    )
+  }
   return (
     <div>
       <Heading text='Statistics' />
