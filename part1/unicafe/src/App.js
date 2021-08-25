@@ -8,6 +8,32 @@ const Button = ({onClick, text}) => (
   </button>
 )
 
+const ButtonGroup = ({totalClicks, good, neutral, bad, setTotal, setGood, setBad, setNeutral}) => {
+  const increaseGood = () => {
+    setGood(good + 1)
+    setTotal(totalClicks + 1)
+  }
+
+  const increaseNeutral = () => {
+    setNeutral(neutral + 1)
+    setTotal(totalClicks + 1)
+  }
+
+  const increaseBad = () => {
+    setBad(bad + 1)
+    setTotal(totalClicks + 1)
+  }
+  
+  return (
+    <div>
+      <Heading text='Give feedback' />
+      <Button onClick={increaseGood} text='Good' />
+      <Button onClick={increaseNeutral} text='Neutral' />
+      <Button onClick={increaseBad} text='Bad' />
+    </div>
+  )
+}
+
 const Statistics = ({totalClicks, good, neutral, bad}) => {
   let average = (good - bad) / totalClicks
   let positive = 0
@@ -29,46 +55,37 @@ const Statistics = ({totalClicks, good, neutral, bad}) => {
   return (
     <div>
       <Heading text='Statistics' />
-      <StatsDisplay counter={good} text='Good' />
-      <StatsDisplay counter={neutral} text='Neutral' />
-      <StatsDisplay counter={bad} text='Bad' />
-      <StatsDisplay counter={totalClicks} text='All' />
-      <StatsDisplay counter={average || totalClicks} text='Average' />
-      <StatsDisplay counter={`${positive}%`} text='Positive' />
+      <StatisticLine counter={good} text='Good' />
+      <StatisticLine counter={neutral} text='Neutral' />
+      <StatisticLine counter={bad} text='Bad' />
+      <StatisticLine counter={totalClicks} text='All' />
+      <StatisticLine counter={average || totalClicks} text='Average' />
+      <StatisticLine counter={`${positive}%`} text='Positive' />
     </div>
   )
 }
 
-const StatsDisplay = ({ counter, text }) => <p>{text} {counter}</p>
+const StatisticLine = ({ counter, text }) => <p>{text} {counter}</p>
 
 const App = () => {
-
+  //Might have been better to go with an object to handle state
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
   const [totalClicks, setTotal] = useState(0)
 
-  const increaseGood = () => {
-    setGood(good + 1)
-    setTotal(totalClicks + 1)
-  }
-
-  const increaseNeutral = () => {
-    setNeutral(neutral + 1)
-    setTotal(totalClicks + 1)
-  }
-
-  const increaseBad = () => {
-    setBad(bad + 1)
-    setTotal(totalClicks + 1)
-  }
-
   return (
     <div>
-      <Heading text='Give feedback' />
-      <Button onClick={increaseGood} text='Good' />
-      <Button onClick={increaseNeutral} text='Neutral' />
-      <Button onClick={increaseBad} text='Bad' />
+      <ButtonGroup 
+        totalClicks={totalClicks}
+        setTotal ={setTotal} 
+        good={good}
+        setGood ={setGood}
+        neutral={neutral}
+        setNeutral ={setNeutral} 
+        bad={bad}
+        setBad ={setBad} 
+      />
       <Statistics 
         totalClicks={totalClicks} 
         good={good} 
