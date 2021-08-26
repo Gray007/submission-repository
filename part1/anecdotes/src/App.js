@@ -6,6 +6,12 @@ const Button = ({ onClick, text }) => (
   </button>
 )
 
+const Ptext = ({ text }) => (
+  <p>
+    {text}
+  </p>
+)
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often',
@@ -16,18 +22,32 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients'
   ]
-   
-  const [selected, setSelected] = useState(0)
+  
+  const initialVote = new Array(anecdotes.length +1).join('0').split('').map(parseFloat)
+  const initialRandom = Math.floor(Math.random() * anecdotes.length)
+
+  const [selected, setSelected] = useState(initialRandom)
+  const [upVotes, setUpvote] = useState([...initialVote])
 
   const randomAnecdote = () => {
     let randomNumber = Math.floor(Math.random() * anecdotes.length)
     setSelected(randomNumber)
   }
 
+  const handleUpVote = () => {
+    let updatedVote = [...upVotes]
+    let updatedVoteValue = updatedVote[selected] + 1
+    updatedVote[selected] = updatedVoteValue
+    setUpvote(updatedVote)
+    console.log(upVotes)
+  }
+
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
-      <Button onClick={randomAnecdote} text='Next Anecdote'/>
+      <Ptext text={anecdotes[selected]} />
+      <Ptext text={`Has ${upVotes[selected]} votes`}/>
+      <Button onClick={handleUpVote} text='Upvote' />
+      <Button onClick={randomAnecdote} text='Next Anecdote' />
     </div>
   )
 }
