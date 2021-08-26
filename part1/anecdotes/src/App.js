@@ -6,11 +6,27 @@ const Button = ({ onClick, text }) => (
   </button>
 )
 
-const Ptext = ({ text }) => (
-  <p>
-    {text}
-  </p>
-)
+const Ptext = ({ text }) => <p>{text}</p>
+
+const PopularAnecdote = ({ upVotes, anecdotes }) => {
+  let noVotes = upVotes.reduce((total, amount) => total + amount)
+  let maxVotes = Math.max(...upVotes)
+  let anecdoteRef = upVotes.indexOf(maxVotes)
+
+  if (noVotes === 0) {
+    return (
+      <>
+        <Ptext text='No votes have been cast. Be the first to vote now!' />
+      </>
+    )
+  }
+  return (
+    <>
+        <Ptext text={anecdotes[anecdoteRef]} />
+        <Ptext text={`Has ${maxVotes} votes`}/>
+    </>
+  )
+}
 
 const App = () => {
   const anecdotes = [
@@ -28,6 +44,8 @@ const App = () => {
 
   const [selected, setSelected] = useState(initialRandom)
   const [upVotes, setUpvote] = useState([...initialVote])
+  
+  console.log(upVotes)
 
   const randomAnecdote = () => {
     let randomNumber = Math.floor(Math.random() * anecdotes.length)
@@ -39,7 +57,6 @@ const App = () => {
     let updatedVoteValue = updatedVote[selected] + 1
     updatedVote[selected] = updatedVoteValue
     setUpvote(updatedVote)
-    console.log(upVotes)
   }
 
   return (
@@ -48,6 +65,7 @@ const App = () => {
       <Ptext text={`Has ${upVotes[selected]} votes`}/>
       <Button onClick={handleUpVote} text='Upvote' />
       <Button onClick={randomAnecdote} text='Next Anecdote' />
+      <PopularAnecdote upVotes={upVotes} anecdotes={anecdotes} />
     </div>
   )
 }
