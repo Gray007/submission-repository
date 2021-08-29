@@ -3,8 +3,9 @@ import React from 'react'
 const Course = ( {course} ) => {
   return (
     <div>
-      <Header key={course.id} text={course.name}/>
-      <Content parts={course.parts}/>
+      <Header key={course.id} text={course.name} />
+      <Content parts={course.parts} />
+      <Total parts={course.parts} />
     </div>
   )
 }
@@ -21,14 +22,16 @@ const Content = ({ parts }) => (
 
 const Part = ({ part }) => <li>{part.name} {part.exercises}</li>
 
-// const Total = ({ course }) => {
-//   const totalExercises =  course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises
-//   return (
-//     <p>
-//       Number of exercises {totalExercises}
-//     </p>
-//   )
-// }
+const Total = ({ parts }) => {
+  const totalExercises =  parts
+    .map(part => part.exercises)
+    .reduce((acc, total) => acc + total, 0)
+  return (
+    <h4>
+      Total number of {totalExercises} exercises for course
+    </h4>
+  )
+}
 
 const App = () => {
   const course = {
@@ -50,6 +53,11 @@ const App = () => {
         exercises: 14,
         id: 3
       },
+      {
+        name: 'Reduxt',
+        exercises: 11,
+        id: 4
+      }
     ]
     // ,
   // id: 2,
