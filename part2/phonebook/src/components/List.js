@@ -1,19 +1,23 @@
 import React from 'react'
 import Heading from './Heading'
 
-const List = ({ persons }) => {
+const List = ({ persons, filter }) => {
+    let filterRegex = new RegExp(filter, "gi")
     return (
       <div>
         <Heading text={'Numbers'}/>
         <ul>
-          {persons.map(person => 
-          <Entry key={person.name} name={person.name} />
+          {persons
+            .filter(person => person.name
+            .match(filterRegex))
+            .map(person => 
+          <Entry key={person.name} person={person} />
           )}
         </ul>
       </div>
     )
   }
   
-  const Entry = ({ name }) => <li>{name}</li>
+  const Entry = ({ person }) => <li>{person.name} : {person.number} </li>
 
   export default List
