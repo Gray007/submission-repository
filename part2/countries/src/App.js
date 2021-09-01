@@ -8,12 +8,12 @@ const Filter = ({ text, filter, handleChange }) => {
       <input 
           value={filter}
           onChange={handleChange}
-          />
+      />
     </div>
   )
 }
 
-const List = ({ list }) => {
+const List = ({ list, onClick }) => {
   let length = list.length
     if (length > 10) {
       return (
@@ -24,7 +24,7 @@ const List = ({ list }) => {
         <ul>
           {list
           .map(item => 
-          <Entry key={item.name} name={item.name} />
+          <Entry key={item.name} name={item.name} onClick={onClick}/>
           )}
         </ul>
       ) 
@@ -51,7 +51,16 @@ const List = ({ list }) => {
     )
   }
   
-const Entry = ({ name }) => <li>{name} </li>
+const Entry = ({ name, onClick }) => {
+  return (
+    <>
+      <div>
+        {name}
+        <button value={name} onClick={onClick}>Show</button> 
+      </div>
+    </>
+  )
+}
 
 const App = () => {
   const [ countries, setCountries ] = useState([])
@@ -74,6 +83,7 @@ const App = () => {
     setNewFilter(event.target.value)
     setUpdatedList(countryList)
   }
+  
   return (
     <div>
       <Filter 
@@ -83,6 +93,7 @@ const App = () => {
       /> 
       <List 
         list={updatedList}
+        onClick={handleFilterChange}
       />     
     </div>
   );
