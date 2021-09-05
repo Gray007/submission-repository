@@ -12,7 +12,7 @@ let filterRegex = new RegExp(filter, "gi")
                 .filter(person => person.name
                 .match(filterRegex))
                 .map(person => 
-                <Entry key={person.id} person={person} deleteContact={() => deleteContact(person.id)} />
+                <Entry key={person.id} person={person} deleteContact={() => deleteContact(persons.indexOf(person))} />
                 )}
             </ul>
         </div>

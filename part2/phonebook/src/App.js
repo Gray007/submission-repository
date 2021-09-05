@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-// import axios from 'axios'
 import Search from './components/Search'
 import AddContact from './components/AddContact'
 import List from './components/List'
@@ -17,7 +16,7 @@ const App = () => {
       .then(initialPersons => {
         setPersons(initialPersons)
       })
-  }, [persons])
+  }, [])
 
   const addNameNumber = (event) => {
     event.preventDefault()
@@ -44,17 +43,18 @@ const App = () => {
     }   
   }
 
-  const deleteContact = (id) => {
-    const person = persons.find(n => n.id === id)
+  const deleteContact = (index) => {
+    const person = persons[index]
     const message = `Delete ${person.name}?`
     const deleteConfirm = window.confirm(message);
     if (deleteConfirm) {
       personService
         .deletePerson(person.id)
-        .then(returnedPerson => {
-          setPersons(persons.filter(p => p.id !== returnedPerson.id))
+        .then(() => {
+          const newList = persons.filter(p => persons.indexOf(p) !== index)
+          setPersons(newList)
         })
-      }
+    }
   }
 
   const handleNameChange = (event) => {
