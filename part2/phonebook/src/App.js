@@ -17,7 +17,7 @@ const App = () => {
       .then(initialPersons => {
         setPersons(initialPersons)
       })
-  }, [])
+  }, [persons])
 
   const addNameNumber = (event) => {
     event.preventDefault()
@@ -42,6 +42,19 @@ const App = () => {
           setNewNumber('')
         }) 
     }   
+  }
+
+  const deleteContact = (id) => {
+    const person = persons.find(n => n.id === id)
+    const message = `Delete ${person.name}?`
+    const deleteConfirm = window.confirm(message);
+    if (deleteConfirm) {
+      personService
+        .deletePerson(person.id)
+        .then(returnedPerson => {
+          setPersons(persons.filter(p => p.id !== returnedPerson.id))
+        })
+      }
   }
 
   const handleNameChange = (event) => {
@@ -69,7 +82,11 @@ const App = () => {
         handleNumberChange={handleNumberChange} 
         handleNameChange={handleNameChange}
       />
-      <List persons={persons} filter={newFilter} />   
+      <List 
+        persons={persons} 
+        filter={newFilter} 
+        deleteContact={deleteContact} 
+      />   
     </div>
   )
 }

@@ -1,7 +1,8 @@
 import React from 'react'
 import Heading from './Heading'
+import Entry from './Entry'
 
-const List = ({ persons, filter }) => {
+const List = ({ persons, filter, deleteContact }) => {
 let filterRegex = new RegExp(filter, "gi")
     return (
         <div>
@@ -11,13 +12,12 @@ let filterRegex = new RegExp(filter, "gi")
                 .filter(person => person.name
                 .match(filterRegex))
                 .map(person => 
-                <Entry key={person.name} person={person} />
+                <Entry key={person.id} person={person} deleteContact={() => deleteContact(person.id)} />
                 )}
             </ul>
         </div>
     )
 }
 
-const Entry = ({ person }) => <li>{person.name} : {person.number} </li>
-
 export default List
+
