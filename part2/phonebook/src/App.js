@@ -23,10 +23,22 @@ const App = () => {
     const nameCheck = persons.filter(person => Object.values(person).indexOf(newName) > -1)
     const numberCheck = persons.filter(person => Object.values(person).indexOf(newNumber) > -1)
 
-    if (nameCheck.length > 0 ) {
-      window.alert(`${newName} has already been added to the phonebook`)
-    } else if (numberCheck.length > 0) {
-      window.alert(`${newNumber} has already been added to the phonebook`)
+    if (numberCheck.length > 0) {
+      window.alert(`${newNumber} has already been added to the phonebook.`)
+    } else if (nameCheck.length > 0) {
+      const duplicateNameReplaceNumber = `${newName} has already been added to the phonebook, replace the old number with this new one?`
+      const updateNumber = window.confirm(duplicateNameReplaceNumber);
+      
+      if (updateNumber) {
+        const name = persons.find(n => n.name === newName)
+        const updatedPerson = {...name, number: newNumber}
+          
+        personService
+          .update(name.id, updatedPerson)
+            .then(returnedPerson => {
+            setPersons(persons.map(person => person.name !== newName ? person : returnedPerson))
+          })
+      }
     } else {
       const personObject = {
         name: newName,
