@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "09834",
-      "id": 1
-    },
-    {
       "name": "Ada Kennedy",
       "number": "3148073",
       "id": 2
@@ -14,6 +9,11 @@
       "name": "John stewart",
       "number": "098345",
       "id": 3
+    },
+    {
+      "name": "Plemmy",
+      "number": "7329833",
+      "id": 8
     }
   ]
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Search from './components/Search'
 import AddContact from './components/AddContact'
 import List from './components/List'
+import Notification from './components/Notification'
 import personService from './services/persons'
 
 const App = () => {
@@ -9,6 +10,8 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
   const [ newFilter, setNewFilter] = useState('')
+  const [ notificationMessage, setNotificationMessage ] = useState(null)
+  const [ notificationType, setNotificationType] = useState('')
 
   useEffect(() => {
     personService
@@ -37,6 +40,13 @@ const App = () => {
           .update(name.id, updatedPerson)
             .then(returnedPerson => {
             setPersons(persons.map(person => person.name !== newName ? person : returnedPerson))
+            setNotificationType('notification')
+            setNotificationMessage(
+              `'${newName}' has been updated with the new number '${newNumber}'`
+            )
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 5000)
           })
       }
     } else {
@@ -49,6 +59,14 @@ const App = () => {
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setNotificationType('notification')
+          setNotificationMessage(
+            `'${newName}' was added to the phone book`
+          )
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 5000)
+
           setNewName('')
           setNewNumber('')
         }) 
@@ -65,6 +83,14 @@ const App = () => {
         .then(() => {
           const newList = persons.filter(p => persons.indexOf(p) !== index)
           setPersons(newList)
+          setNotificationType('error')
+          setNotificationMessage(
+            `'${person.name}' was deleted from the phone book`
+          )
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 5000)
+
         })
     }
   }
@@ -83,6 +109,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={notificationMessage} type={notificationType}/>
       <Search 
         newFilter={newFilter}
         handleFilterChange={handleFilterChange}
