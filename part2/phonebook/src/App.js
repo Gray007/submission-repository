@@ -48,6 +48,18 @@ const App = () => {
               setNotificationMessage(null)
             }, 5000)
           })
+          .catch(error => {
+            setNotificationType('error')
+            setNotificationMessage(
+              `'${newName}' has been removed from the server`
+            )
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 5000)
+            const newList = persons.filter(p => p.name !== newName)
+            console.log(newList)
+            setPersons(newList)
+          })
       }
     } else {
       const personObject = {
